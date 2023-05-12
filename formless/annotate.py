@@ -17,7 +17,8 @@ from nevow import util
 
 
 from formless import iformless
-import collections
+from collections.abc import Callable
+
 
 
 class count(object):
@@ -733,7 +734,7 @@ class MetaTypedInterface(InterfaceClass):
                 ## zope.interface doesn't like these
                 del dct[key]
                 setattr(cls, key, value)
-            elif isinstance(value, collections.Callable):
+            elif isinstance(value, Callable):
                 names, _, _, typeList = inspect.getargspec(value)
 
                 _testCallArgs = ()
