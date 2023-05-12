@@ -8,7 +8,7 @@ A web application server built using twisted.web
 from nevow.util import unicode, toBytes
 import cgi
 import warnings
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from urllib.parse import unquote
 
 from zope.interface import implementer, classImplements
