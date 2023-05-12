@@ -106,7 +106,7 @@ class Configurable(object):
             ## This won't work right now. We need to push the previous configurable
             ## as the configurableFactory somehow and ask that for hte next binding
             ## we also need to support deferreds coming back from locateConfigurable
-            assert 'black' is 'white', "Deferred support is pending"
+            assert 'black' == 'white', "Deferred support is pending"
             configurable = cf.locateConfigurable(ctx, child)
             ctx = WovenContext(ctx, invisible(key=seg))
             ctx.remember(binding, IBinding)
