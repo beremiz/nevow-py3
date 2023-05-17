@@ -215,7 +215,7 @@ class NevowRequest(server.Request, tpc.Componentized):
 
     def process(self):
         # extra request parsing
-        if self.method == 'POST':
+        if self.method == b'POST':
             t = self.content.tell()
             self.content.seek(0)
             self.fields = cgi.FieldStorage(self.content, self.received_headers,
