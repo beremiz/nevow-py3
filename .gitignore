@@ -1,2 +1,3 @@
 *.pyc
 Nevow.egg-info/*
+*.cache
