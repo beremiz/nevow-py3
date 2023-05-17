@@ -129,8 +129,7 @@ class URL(object):
         scheme, netloc, path, query, fragment = urllib.parse.urlsplit(st)
         u = klass(
             scheme, netloc,
-            
-            toBytes(''.join([urllib.parse.unquote(unicode(seg)) for seg in unicode(path).split('/')[1:]])),
+            [toBytes(urllib.parse.unquote(seg)) for seg in unicode(path).split('/')[1:]],
             unquerify(toBytes(query)), urllib.parse.unquote(unicode(fragment)))
         return u
     fromString = classmethod(fromString)
@@ -505,6 +504,11 @@ root = URLOverlay(rootaccessor,
     "the request traversal process, the url of the resource "
     "where rememberRootURL was called will be used instead.")
 
+def _maybeEncode(s):
+    if isinstance(s, str):
+        s = s.encode('utf-8')
+    return s
+
 
 def URLSerializer(original, context):
     """
@@ -513,10 +517,7 @@ def URLSerializer(original, context):
     Unicode path, query and fragment components are handled according to the
     IRI standard (RFC 3987).
     """
-    def _maybeEncode(s):
-        if isinstance(s, str):
-            s = s.encode('utf-8')
-        return s
+
     urlContext = WovenContext(parent=context, precompile=context.precompile, inURL=True)
     if original.scheme:
         # TODO: handle Unicode (see #2409)
@@ -557,7 +558,7 @@ def URLOverlaySerializer(original, context):
         for key in original._keep:
             for value in req.args.get(key, []):
                 url = url.add(key, value)
-        yield toBytes(b''.join(serialize(url, context)))
+        yield toBytes(b''.join(map(_maybeEncode, serialize(url, context))))
 
 
 ## This is totally unfinished and doesn't work yet.
