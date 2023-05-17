@@ -210,9 +210,7 @@ PASS_SELF = object()
 
 
 def FunctionSerializer_nocontext(original):
-    code = getattr(original, 'func_code', None)
-    if code is None:
-        return True
+    code = original.__code__
     argcount = code.co_argcount
     if argcount == 1:
         return True
@@ -229,10 +227,6 @@ def FunctionSerializer(original, context, nocontextfun=FunctionSerializer_nocont
         try:
             nocontext = nocontextfun(original)
             if nocontext is True:
-                if hasattr(original, '__code__') and (original.__code__.co_argcount == 3 or (
-                            original.__code__.co_argcount == 2 and original.__code__.co_varnames[0] != 'self')):
-                    result = original(context, data)
-                else:
                     result = original(data)
             else:
                 if nocontext is PASS_SELF:
@@ -247,17 +241,15 @@ def FunctionSerializer(original, context, nocontextfun=FunctionSerializer_nocont
 
 def MethodSerializer(original, context):
     def nocontext(original):
-        func = getattr(original, 'im_func', None)
-        code = getattr(func, 'func_code', None)
-        return code is None or code.co_argcount == 2
+        code = original.__code__
+        return code.co_argcount == 2
     return FunctionSerializer(original, context, nocontext)
 
 
 def RendererSerializer(original, context):
     def nocontext(original):
-        func = getattr(original, 'im_func', None)
-        code = getattr(func, 'func_code', None)
-        return code is None or code.co_argcount == 2
+        code = original.__code__
+        return code.co_argcount == 2
     return FunctionSerializer(original.rend, context, nocontext)
 
 
