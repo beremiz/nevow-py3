@@ -369,8 +369,11 @@ class URL(object):
 
     ## object protocol override ##
 
+    def __bytes__(self):
+        return flat.flatten(self)
+
     def __str__(self):
-        return str(flat.flatten(self))
+        return bytes(self).decode()
 
     def __repr__(self):
         return (
