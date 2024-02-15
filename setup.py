@@ -1,12 +1,5 @@
 #!/usr/bin/python
 
-import versioneer
-versioneer.VCS = 'git'
-versioneer.versionfile_source = 'nevow/_version.py'
-versioneer.versionfile_build = 'nevow/_version.py'
-versioneer.tag_prefix = 'nevow-'
-versioneer.parentdir_prefix = 'Nevow-'
-
 # For the convenience of the travis configuration, make this information
 # particularly easy to find.  See .travis.yml.
 _MINIMUM_TWISTED_VERSION = "13.0"
@@ -26,8 +19,7 @@ for (dirpath, dirnames, filenames) in os.walk("doc"):
 if __name__ == '__main__':
     setup(
         name='Nevow',
-        version=versioneer.get_version(),
-        cmdclass=versioneer.get_cmdclass(),
+        version="0.14.5",
         packages=find_packages(),
         py_modules=["twisted.plugins.nevow_widget"],
         include_package_data=True,
