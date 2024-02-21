@@ -5,10 +5,7 @@
 import types
 types.NoneType=type(None)
 
-from nevow._version import get_versions
-__version__ = get_versions()["version"]
-__version_info__ = tuple(int(part) for part in __version__.split("-", 1)[0].split(".")[:3])
-del get_versions
+__version_info__ = (0,14,5)
 
 from twisted.python.versions import Version
 version = Version("nevow", *__version_info__)
