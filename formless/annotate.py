@@ -735,7 +735,7 @@ class MetaTypedInterface(InterfaceClass):
                 del dct[key]
                 setattr(cls, key, value)
             elif isinstance(value, Callable):
-                names, _, _, typeList = inspect.getargspec(value)
+                names, _, _, typeList, _, _, _ = inspect.getfullargspec(value)
 
                 _testCallArgs = ()
 
