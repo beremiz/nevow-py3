@@ -129,7 +129,7 @@ class URL(object):
         scheme, netloc, path, query, fragment = urllib.parse.urlsplit(st)
         u = klass(
             scheme, netloc,
-            [toBytes(urllib.parse.unquote(seg)) for seg in unicode(path).split('/')[1:]],
+            [urllib.parse.unquote(seg) for seg in path.split('/')[1:]],
             unquerify(toBytes(query)), urllib.parse.unquote(unicode(fragment)))
         return u
     fromString = classmethod(fromString)
@@ -154,7 +154,7 @@ class URL(object):
         uri = toBytes(request.prePathURL())
         if b'?' in toBytes(request.uri):
             uri += b'?' + toBytes(request.uri).split(b'?')[-1]
-        return klass.fromString(unicode(uri))
+        return klass.fromString(uri.decode())
     fromContext = classmethod(fromContext)
 
     ## path manipulations ##
