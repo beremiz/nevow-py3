@@ -180,7 +180,7 @@ class URL(object):
         l = self.pathList()
         if not l:
             l=[path]
-        if l[-1] == '':
+        if len(l[-1]) == 0:
             l[-1] = path
         else:
             l.append(path)
