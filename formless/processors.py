@@ -90,7 +90,7 @@ class ProcessMethodBinding(components.Adapter):
         typedValue = self.original.typedValue
         results = {}
         failures = {}
-        if '----' in data:
+        if b'----' in data:
             ## ---- is the "direct object", the one argument you can specify using the command line without saying what the argument name is
             data[typedValue.arguments[0].name] = data[b'----']
             del data[b'----']
