@@ -113,7 +113,7 @@ class BooleanRenderer(BaseInputRenderer):
         # in request.args with the name data.name. So let's force the value False to always
         # be in request.args[data.name]. If the checkbox is checked, the value True will
         # be first, and we will find that.
-        return slot[node, tags.input(type="hidden", name=name, value="False")]
+        return slot[tags.input(type="hidden", name=name, value="False"), node]
 
 
 class FileUploadRenderer(BaseInputRenderer):
