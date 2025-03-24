@@ -235,9 +235,9 @@ class Real(Typed):
 
 class Boolean(Typed):
     def coerce(self, val, configurable):
-        if val == 'False':
+        if val == b'False':
             return False
-        elif val == 'True':
+        elif val == b'True':
             return True
         raise InputError("'%s' is not a boolean" % val)
 
@@ -325,7 +325,7 @@ class Choice(Typed):
         elif keyToValue is not None:
             self.keyAndConfigurableToValue = lambda x,y: keyToValue(x)
         else:
-            self.keyAndConfigurableToValue = lambda x,y: str(x)
+            self.keyAndConfigurableToValue = lambda x,y: x
 
 
     def coerce(self, val, configurable):

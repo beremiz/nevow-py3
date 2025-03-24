@@ -92,16 +92,16 @@ class ProcessMethodBinding(components.Adapter):
         failures = {}
         if '----' in data:
             ## ---- is the "direct object", the one argument you can specify using the command line without saying what the argument name is
-            data[typedValue.arguments[0].name] = data['----']
-            del data['----']
+            data[typedValue.arguments[0].name] = data[b'----']
+            del data[b'----']
         for binding in typedValue.arguments:
             name = binding.name
             try:
                 context = WovenContext(context, faketag)
                 context.remember(binding, iformless.IBinding)
-                results[name] = iformless.IInputProcessor(binding.typedValue).process(context, boundTo, data.get(name, ['']))
+                results[name] = iformless.IInputProcessor(binding.typedValue).process(context, boundTo, data.get(name.encode(), [b'']))
             except formless.InputError as e:
-                results[name] = data.get(name, [''])[0]
+                results[name] = data.get(name.encode(), [b''])[0]
                 failures[name] = e.reason
 
         if failures:
@@ -127,18 +127,19 @@ class ProcessPropertyBinding(components.Adapter):
         binding = self.original
         context.remember(binding, iformless.IBinding)
         result = {}
+        name = binding.name
         try:
-            result[binding.name] = iformless.IInputProcessor(binding.typedValue).process(context, boundTo, data.get(binding.name, ['']))
+            result[name] = iformless.IInputProcessor(binding.typedValue).process(context, boundTo, data.get(name.encode(), [b'']))
         except formless.InputError as e:
-            result[binding.name] = data.get(binding.name, [''])
-            raise formless.ValidateError({binding.name: e.reason}, e.reason, result)
+            result[name] = data.get(name.encode(), [b''])
+            raise formless.ValidateError({name: e.reason}, e.reason, result)
 
         if autoConfigure:
             try:
                 return self.original.configure(boundTo, result)
             except formless.InputError as e:
-                result[binding.name] = data.get(binding.name, [''])
-                raise formless.ValidateError({binding.name: e.reason}, e.reason, result)
+                result[name] = data.get(name.encode(), [b''])
+                raise formless.ValidateError({name: e.reason}, e.reason, result)
         return result
 
 @implementer(iformless.IInputProcessor)
@@ -156,7 +157,7 @@ class ProcessTyped(components.Adapter):
                 val = val.decode('utf-8', 'replace')
         if typed.strip:
             val = val.strip()
-        if val == '' or val is None:
+        if len(val) == 0 or val is None:
             if typed.required:
                 raise formless.InputError(typed.requiredFailMessage)
             else:
@@ -177,7 +178,7 @@ class ProcessPassword(components.Adapter):
         pw1 = data[0]
         args = context.locate(inevow.IRequest).args
         binding = context.locate(iformless.IBinding)
-        pw2 = args.get("%s____2" % binding.name, [''])[0]
+        pw2 = args.get(b"%s____2" % binding.name.encode(), [b''])[0]
         if typed.strip:
             pw1 = pw1.strip()
             pw2 = pw2.strip()
@@ -236,7 +237,7 @@ class ProcessUpload(components.Adapter):
             file.seek(0)
             ch = file.read(1)
             file.seek(pos)
-            return ch != ''
+            return len(ch) != 0
         
         # Testing for required'ness is a bit of a hack (not my fault!) ...
         # The upload is only considered missing if both the file name and content
