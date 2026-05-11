@@ -6,7 +6,7 @@
 A web application server built using twisted.web
 """
 from nevow.util import unicode, toBytes
-import cgi
+from nevow import _form
 import warnings
 from collections.abc import MutableMapping
 from urllib.parse import unquote
@@ -176,17 +176,13 @@ class NevowRequest(server.Request, tpc.Componentized):
     """
     A Request subclass which does additional
     processing if a form was POSTed. When a form is POSTed,
-    we create a cgi.FieldStorage instance using the data posted,
+    we parse the body into a L{nevow._form.FieldStorage} instance
     and set it as the request.fields attribute. This way, we can
     get at information about filenames and mime-types of
     files that were posted.
 
-    TODO: cgi.FieldStorage blocks while decoding the MIME.
-    Rewrite it to do the work in chunks, yielding from time to
-    time.
-
     @ivar fields: C{None} or, if the HTTP method is B{POST}, a
-        L{cgi.FieldStorage} instance giving the content of the POST.
+        L{nevow._form.FieldStorage} instance giving the content of the POST.
 
     @ivar _lostConnection: A flag which keeps track of whether the response to
         this request has been interrupted (for example, by the connection being
@@ -218,8 +214,7 @@ class NevowRequest(server.Request, tpc.Componentized):
         if self.method == b'POST':
             t = self.content.tell()
             self.content.seek(0)
-            self.fields = cgi.FieldStorage(self.content, self.received_headers,
-                                           environ={'REQUEST_METHOD': 'POST'})
+            self.fields = _form.parse(self.content, self.requestHeaders)
             self.content.seek(t)
 
         # get site from channel
