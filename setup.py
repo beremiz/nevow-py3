@@ -1,27 +1,14 @@
 #!/usr/bin/python
 
-# For the convenience of the travis configuration, make this information
-# particularly easy to find.  See .travis.yml.
 _MINIMUM_TWISTED_VERSION = "13.0"
 
 from setuptools import setup, find_packages
-
-import os
-data_files=[]
-for (dirpath, dirnames, filenames) in os.walk("doc"):
-    if ".svn" in dirnames:
-        del dirnames[dirnames.index(".svn")]
-    thesedocs = []
-    for fname in filenames:
-        thesedocs.append(os.path.join(dirpath, fname))
-    data_files.append((dirpath, thesedocs))
 
 if __name__ == '__main__':
     setup(
         name='Nevow',
         version="0.14.5",
         packages=find_packages(),
-        py_modules=["twisted.plugins.nevow_widget"],
         include_package_data=True,
         author='Divmod, Inc.',
         author_email='support@divmod.org',
@@ -40,48 +27,9 @@ if __name__ == '__main__':
             "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
             "Topic :: Software Development :: Libraries",
             ],
-        scripts=['bin/nevow-xmlgettext', 'bin/nit'],
-        data_files=data_files,
         package_data={
                 'formless': [
                     'freeform-default.css'
-                    ],
-                'nevow': [
-                    'Canvas.swf',
-                    '*.css',
-                    '*.js',
-                    'css/*.css',
-                    'css/Nevow/*.css',
-                    'css/Nevow/TagLibrary/*.css',
-                    'js/Divmod/*.js',
-                    'js/Nevow/*.js',
-                    'js/Nevow/Test/*.js',
-                    'js/Nevow/Athena/Tests/*.js',
-                    'js/Divmod/Runtime/*.js',
-                    'js/Nevow/Athena/*.js',
-                    'js/Nevow/TagLibrary/*.js',
-                    'js/Divmod/Test/*.js',
-                    'js/PythonTestSupport/*.js',
-                    ],
-                'nevow.athena_private': [
-                    '*.png'
-                    ],
-                'nevow.taglibrary': [
-                    '*.css',
-                    '*.js'
-                    ],
-                'nevow.livetrial': [
-                    '*.css',
-                    '*.js'
-                    ],
-                'nevow.test': [
-                    '*.js'
-                    ],
-                'nevow.test.test_package.Foo': [
-                    '*.js'
-                    ],
-                'nevow.test.test_package.Foo.Baz': [
-                    '*.js'
                     ],
                 },
         install_requires=[
@@ -96,10 +44,5 @@ if __name__ == '__main__':
             # work.
             "twisted>=" + _MINIMUM_TWISTED_VERSION,
             ],
-        extras_require={
-            'doc': [
-                'Sphinx',
-            ],
-        },
         zip_safe=False,
     )

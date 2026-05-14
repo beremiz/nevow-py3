@@ -102,10 +102,8 @@ formless.webform.FormDefaults     nevow.appserver.NevowRequest                fo
 formless.webform.FormDefaults     nevow.testutil.FakeRequest                  formless.iformless.IFormDefaults
 formless.webform.FormDefaults     nevow.testutil.FakeSession                  formless.iformless.IFormDefaults
 formless.webform.FormDefaults     twisted.web.server.Session                  formless.iformless.IFormDefaults
-formless.webform.FormDefaults     nevow.guard.GuardSession                    formless.iformless.IFormDefaults
 
 formless.webform.FormErrors       twisted.web.server.Session               formless.iformless.IFormErrors
-formless.webform.FormErrors       nevow.guard.GuardSession                 formless.iformless.IFormErrors
 formless.webform.FormErrors       nevow.testutil.FakeSession               formless.iformless.IFormErrors
 
 nevow.appserver.OldResourceAdapter                  twisted.web.resource.IResource      nevow.inevow.IResource
@@ -142,8 +140,6 @@ nevow.query.QueryNeverFind  nevow.stan.raw                nevow.inevow.IQ
 nevow.query.QueryNeverFind  builtins.bytes                nevow.inevow.IQ
 nevow.query.QueryNeverFind  nevow.stan.directive          nevow.inevow.IQ
 
-# I18N
-nevow.i18n.languagesFactory     nevow.context.RequestContext    nevow.inevow.ILanguages
 """
 
 load(basic_adapters)
@@ -200,9 +196,6 @@ nevow.flat.flatstan.ListSerializer  itertools.starmap
 nevow.flat.flatstan.ListSerializer  itertools.takewhile
 
 nevow.flat.flatstan.DocFactorySerializer nevow.inevow.IDocFactory
-
-# I18N
-nevow.i18n.flattenL10n              nevow.i18n.PlaceHolder
 """
 
 flatteners_2_4 = """
@@ -215,6 +208,7 @@ loadFlatteners(flatteners)
 
 
 __all__ = [
-    'accessors', 'appserver', 'blocks', 'canvas', 'context', 'dirlist', 'entities', 'events', 'failure', 'guard', 'inevow',
-    'loaders', 'rend', 'scripts', 'stan', 'static', 'tags', 'test', 'testutil', 'url', 'util', 'vhost', 'flat', 'version',
+    'accessors', 'appserver', 'context', 'dirlist', 'failure', 'flat',
+    'inevow', 'loaders', 'query', 'rend', 'stan', 'static', 'tags',
+    'test', 'testutil', 'url', 'util', 'version',
 ]

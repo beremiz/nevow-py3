@@ -1,59 +1,47 @@
 # Copyright (c) Twisted Matrix Laboratories.
 # See LICENSE for details.
 
-"""
-Tests for Nevow package sundries.
-"""
+"""Smoke tests for the trimmed Beremiz-focused package surface."""
 
-from twisted.python.versions import Version
+import importlib
+
 from twisted.trial.unittest import SynchronousTestCase
 
-import nevow
-
-class VersionTests(SynchronousTestCase):
-    """
-    Tests for the version information exposed by the top-level L{nevow}
-    package.
-    """
-    def test_version(self):
-        """
-        L{nevow.version} is a L{Version} instance
-        """
-        self.assertIsInstance(nevow.version, Version)
-
-
-    def test_name(self):
-        """
-        L{nevow.version} names Nevow.
-        """
-        self.assertEqual("nevow", nevow.version.package)
+class RuntimeSurfaceTests(SynchronousTestCase):
+    def test_runtimeModulesImport(self):
+        importlib.import_module("nevow.appserver")
+        importlib.import_module("nevow.loaders")
+        importlib.import_module("nevow.rend")
+        importlib.import_module("nevow.static")
+        importlib.import_module("nevow.tags")
+        importlib.import_module("nevow.url")
+        importlib.import_module("formless.annotate")
+        importlib.import_module("formless.configurable")
+        importlib.import_module("formless.webform")
 
 
-    def test_versionComponents(self):
-        """
-        L{nevow.version} gives the major, minor, and micro version numbers as
-        integers.
-        """
-        self.assertEqual(
-            (int, int, int),
-            tuple(
-                type(info) for info
-                in [nevow.version.major, nevow.version.minor, nevow.version.micro]))
+class RemovedFeatureTests(SynchronousTestCase):
+    def test_athenaModuleMissing(self):
+        self.assertRaises(ImportError, importlib.import_module, "nevow.athena")
 
 
-    def test_versionInfo(self):
-        """
-        L{nevow.__version_info__} is a L{tuple} giving the same version numbers
-        as L{nevow.version}.
-        """
-        self.assertEqual(
-            nevow.__version_info__,
-            (nevow.version.major, nevow.version.minor, nevow.version.micro))
+    def test_nitScriptModuleMissing(self):
+        self.assertRaises(
+            ImportError, importlib.import_module, "nevow.scripts.nit")
 
 
-    def test_versionString(self):
-        """
-        L{nevow.__version__} is a L{str} giving at least as much information as
-        is given by L{nevow.__version_info__}.
-        """
-        self.assertIn("%d.%d.%d" % nevow.__version_info__, nevow.__version__)
+    def test_livetrialModuleMissing(self):
+        self.assertRaises(
+            ImportError, importlib.import_module, "nevow.livetrial.runner")
+
+
+    def test_canvasModuleMissing(self):
+        self.assertRaises(ImportError, importlib.import_module, "nevow.canvas")
+
+
+    def test_guardModuleMissing(self):
+        self.assertRaises(ImportError, importlib.import_module, "nevow.guard")
+
+
+    def test_i18nModuleMissing(self):
+        self.assertRaises(ImportError, importlib.import_module, "nevow.i18n")

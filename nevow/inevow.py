@@ -632,9 +632,8 @@ class IFilesystemPackage(Interface):
     """
     mapping = Attribute("""
     A C{dict} mapping C{unicode} to C{str}.  The keys in this dictionary are
-    CSS or Javascript module names which can be imported by
-    L{nevow.athena.LivePage}.  The values give locations in the filesystem
-    where the implementation of each module can be found.
+    CSS or Javascript module names.  The values give locations in the
+    filesystem where the implementation of each module can be found.
     """)
 
 
@@ -652,33 +651,3 @@ class ICSSPackage(IFilesystemPackage):
     Represents information about the filesystem layout of a set of CSS
     modules.
     """
-
-
-
-class IAthenaTransportable(Interface):
-    """
-    An object which can be sent by Athena from the Python server to the
-    JavaScript client.
-    """
-    jsClass = Attribute(
-        """
-        A C{unicode} string giving the fully-qualified name of a JavaScript
-        function which will be invoked to unserialize the serialized form of
-        this object.
-
-        The current serialization implementation is limited to supporting
-        values for this attribute which refer to JavaScript functions which
-        are defined in modules which have already been imported by the
-        client receiving the serialized data.  An attempt to lift this
-        limitation will likely be made at some future point.
-        """)
-
-
-    def getInitialArguments():
-        """
-        Define the arguments which will be passed to L{jsClass}.
-
-        @rtype: L{tuple}
-        @return: A tuple of simple types which will be passed as positional
-            arguments to L{jsClass}.
-        """
