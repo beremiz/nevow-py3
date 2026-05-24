@@ -7,6 +7,8 @@
 
 
 import warnings
+from importlib.resources import files
+
 from zope.interface import implementer, Interface
 
 from twisted.python import components
@@ -23,7 +25,7 @@ from formless.formutils import FormDefaults, FormErrors, calculatePostURL, keyTo
 
 from nevow.static import File
 
-defaultCSS = File(util.resource_filename('formless', 'freeform-default.css'), 'text/css')
+defaultCSS = File(str(files('formless') / 'freeform-default.css'), 'text/css')
 
 @implementer(inevow.IRenderer, iformless.ITypedRenderer)
 class DefaultRenderer(object):

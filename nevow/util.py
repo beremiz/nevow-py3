@@ -197,18 +197,6 @@ def _namedAnyWithBuiltinTranslation(name):
         name='types.GeneratorType'
     return namedAny(name)
 
-# Import resource_filename from setuptools's pkg_resources module if possible
-# because it handles resources in .zip files. If it's not provide a version
-# that assumes the resource is directly available on the filesystem. 
-try:
-    from pkg_resources import resource_filename
-except ImportError:
-    def resource_filename(modulename, resource_name):
-        modulepath = namedAny(modulename).__file__
-        return os.path.join(os.path.dirname(os.path.abspath(modulepath)), resource_name)
-
-
-
 class CachedFile(object):
     """
     Helper for caching operations on files in the filesystem.
